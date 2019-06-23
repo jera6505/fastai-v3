@@ -63,11 +63,7 @@ async def analyze(request):
     prediction = learn.predict(img)[0]
     return JSONResponse({'result': str(prediction)})
 
-
-if __name__ == '__main__':
-    if 'serve' in sys.argv:
-        uvicorn.run(app=app, host='0.0.0.0', port=5000, log_level="info")
-    class F1_Score:
+class F1_Score:
         def __init__(self,thresh:float):
             self.thresh = thresh
 
@@ -82,3 +78,10 @@ if __name__ == '__main__':
         @property
         def __name__(self):
             return self.__repr__()
+
+
+
+if __name__ == '__main__':
+    if 'serve' in sys.argv:
+        uvicorn.run(app=app, host='0.0.0.0', port=5000, log_level="info")
+    
