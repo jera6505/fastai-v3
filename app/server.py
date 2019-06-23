@@ -67,3 +67,18 @@ async def analyze(request):
 if __name__ == '__main__':
     if 'serve' in sys.argv:
         uvicorn.run(app=app, host='0.0.0.0', port=5000, log_level="info")
+    class F1_Score:
+        def __init__(self,thresh:float):
+            self.thresh = thresh
+
+        def __call__(self,inp,targ):
+            targ = [[0,1]] * len(inp)
+            targ = torch.tensor(targ).cuda()
+            return fai.metrics.fbeta(inp, targ, thresh=self.thresh, beta=5)
+
+        def __repr__(self):
+            return f"F1({self.thresh})"
+
+        @property
+        def __name__(self):
+            return self.__repr__()
