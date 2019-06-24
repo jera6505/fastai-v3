@@ -44,14 +44,19 @@ class F1_Score:
         return self.__repr__()
 
 async def setup_learner():
-    await download_file(export_file_url, path/'models'/f'{export_file_name}.pth')
-    data_bunch = ImageDataBunch.single_from_classes(path, classes,
-        ds_tfms=get_transforms(), size=224).normalize(imagenet_stats)
-    learn = cnn_learner(data_bunch, models.resnet34, pretrained=False)
-    metrics = [F1_Score(t) for t in [0.2, 0.3, 0.4, 0.45, 0.5, 0.55, 0.6, 0.7]]
-    learn.metrics= metrics
-    learn.load(export_file_name)
-    return learn
+    await download_file(export_file_url, path / export_file_name)
+    try:
+        learn = load_learner(path, export_file_name)
+        metrics = [F1_Score(t) for t in [0.2, 0.3, 0.4, 0.45, 0.5, 0.55, 0.6, 0.7]]
+        learn.metrics= metrics
+        return learn
+    except RuntimeError as e:
+        if len(e.args) > 0 and 'CPU-only machine' in e.args[0]:
+            print(e)
+            message = "\n\nThis model was trained with an old version of fastai and will not work in a CPU environment.\n\nPlease update the fastai library in your training environment and export your model again.\n\nSee instructions for 'Returning to work' at https://course.fast.ai."
+            raise RuntimeError(message)
+        else:
+            raise
 
 
 loop = asyncio.get_event_loop()
