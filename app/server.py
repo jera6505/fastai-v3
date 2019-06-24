@@ -44,7 +44,7 @@ class F1_Score:
         return self.__repr__()
 
 async def setup_learner():
-    await download_file(model_file_url, path/'models'/f'{model_file_name}.pth')
+    await download_file(export_file_url, path/'models'/f'{export_file_name}.pth')
     data_bunch = ImageDataBunch.single_from_classes(path, classes,
         ds_tfms=get_transforms(), size=224).normalize(imagenet_stats)
     learn = cnn_learner(data_bunch, models.resnet34, pretrained=False)
