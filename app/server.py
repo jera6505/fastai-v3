@@ -50,7 +50,7 @@ async def setup_learner():
     learn = cnn_learner(data_bunch, models.resnet34, pretrained=False)
     metrics = [F1_Score(t) for t in [0.2, 0.3, 0.4, 0.45, 0.5, 0.55, 0.6, 0.7]]
     learn.metrics= metrics
-    learn.load(model_file_name)
+    learn.load(export_file_name)
     return learn
 
 
