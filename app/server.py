@@ -47,8 +47,6 @@ async def setup_learner():
     await download_file(export_file_url, path / export_file_name)
     try:
         learn = load_learner(path, export_file_name)
-        metrics = [F1_Score(t) for t in [0.2, 0.3, 0.4, 0.45, 0.5, 0.55, 0.6, 0.7]]
-        learn.metrics= metrics
         return learn
     except RuntimeError as e:
         if len(e.args) > 0 and 'CPU-only machine' in e.args[0]:
