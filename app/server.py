@@ -9,7 +9,7 @@ from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import HTMLResponse, JSONResponse
 from starlette.staticfiles import StaticFiles
 
-export_file_url = 'https://drive.google.com/uc?export=download&id=1rV6kp1EO0Nf1HFVf3H0JpP7nmGPxXxHN'
+export_file_url = 'https://drive.google.com/uc?export=download&id=138tUG-5chLHhe_vMiVQ_whoWlHjdKpPI''
 export_file_name = 'model_5150.pkl'
 
 classes = ['consumo', 'veneno']
